@@ -38,10 +38,16 @@ for my $l (@input_list){
 
 # Text generator
 
-my $random_index = int(rand($len_input_list-1));
+my $random_index = int(rand($len_input_list));
 our $cur_word = $input_list[$random_index];
 sub get_word {
-    my $next_wordlist = $hash{$cur_word};
+    my $next_wordlist;
+    $next_wordlist = $hash{$cur_word};
+    unless($next_wordlist){
+	my $randword = $input_list[int(rand($len_input_list))];
+	$cur_word = $randword;
+	return $cur_word;
+    }    
     my %next_wordlist_hash = %{$next_wordlist};
     my @selection_list = ();
     foreach my $key ( keys %next_wordlist_hash) {
@@ -50,7 +56,7 @@ sub get_word {
 	    push(@selection_list, $key);
 	}
     }
-    my $selected = $selection_list[int(rand(scalar(@selection_list)-1))];
+    my $selected = $selection_list[int(rand(scalar(@selection_list)))];
     $cur_word = $selected;
     return $cur_word;
     
